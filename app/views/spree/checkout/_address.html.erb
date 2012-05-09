@@ -4,7 +4,7 @@
   next if address_type == 'billing' && Spree::AddressBook::Config[:disable_bill_address]
   address_name = "#{address_type[0...4]}_address" %>
 <div class="columns alpha six" data-hook="<%= address_type %>_fieldset_wrapper">
-<fieldset id="<%= address_type %>">
+<fieldset id="<%= address_type %>" data-hook>
   <legend><%= t(address_type + "_address")%></legend>
   <% if address_type == 'shipping' && !Spree::AddressBook::Config[:disable_bill_address] %>
     <p class="field checkbox">
@@ -26,8 +26,7 @@
     </p>
   </div>
   <%= form.fields_for address_name do |address_form| %>
-    <div class="inner">
-      <p class="field">&nbsp;</p>
+    <div class="inner" data-hook="<%= address_type %>_inner">
       <%= render :partial => 'spree/addresses/form', :locals => {
         :address_name => address_name,
         :address_form => address_form,
