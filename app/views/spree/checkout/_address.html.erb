@@ -13,7 +13,7 @@
       </label>
     </p>
   <% end %>
-  <% unless @addresses.empty? %>
+  <% if @addresses.present? %>
     <div class="select_address">
       <p class="field">
         <% @addresses.each_with_index do |address, idx| %>
