@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <%= javascript_include_tag states_url(:format => :js) %>
+<% end %>
 <style>
   form p.field input[type=text], form p.field select { width: 80%; float: none; }
   .hidden { display: none; }
@@ -9,6 +12,7 @@
   <div class="inner">
     <%= render :partial => 'spree/addresses/form', :locals => {
       :address_name => 'address',
+      :address_type => 'shipping',
       :address_form => f,
       :address => @address
     } %>
