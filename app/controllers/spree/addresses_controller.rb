@@ -29,6 +29,6 @@ class Spree::AddressesController < Spree::BaseController
     else
       @address.update_attribute(:deleted_at, Time.now)
     end
-    redirect_to(request.env['HTTP_REFERER'] || account_path) unless request.xhr?
+    redirect_to(account_path) unless request.xhr?
   end
 end
