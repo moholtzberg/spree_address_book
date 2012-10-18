@@ -23,12 +23,21 @@ class Spree::AddressesController < Spree::BaseController
     redirect_back_or_default(account_path)
   end
 
+  def delete
+    if @address.can_be_deleted?
+      @address.destroy
+    else
+      @address.update_attribute(:deleted_at, Time.now)
+    end
+    redirect_to(request.env['HTTP_REFERER'] || account_path)
+  end
+
   def destroy
     if @address.can_be_deleted?
       @address.destroy
     else
       @address.update_attribute(:deleted_at, Time.now)
     end
-    redirect_to(account_path) unless request.xhr?
+    redirect_to(request.env['HTTP_REFERER'] || account_path) unless request.xhr?
   end
 end
