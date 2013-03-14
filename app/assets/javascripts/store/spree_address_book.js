@@ -2,7 +2,7 @@
   $(document).ready(function(){
     if($('#checkout_form_address').is('*') || $('form').is('.edit_address')){
       var get_states = function(region){
-          country = $('p#' + region + 'country' + ' span#' + region + 'country :only-child').val();
+          country = $('p#' + region + 'country' + ' span#' + region + 'country-selection :only-child').val();
           return state_mapper[country];
         }
 
