@@ -18,7 +18,11 @@ Spree::Address.class_eval do
   end
 
   def to_s
-    "#{firstname} #{lastname}: #{zipcode}, #{country}, #{state || state_name}, #{city}, #{address1} #{address2}"
+    "#{firstname} #{lastname}: #{full_address}, #{city}, #{state || state_name}, #{country}, #{zipcode}"
+  end
+
+  def full_address
+    [address1, address2].reject(&:blank?).to_a.join(', ')
   end
 
   def destroy_with_saving_used
