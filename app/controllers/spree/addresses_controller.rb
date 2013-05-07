@@ -4,14 +4,25 @@ class Spree::AddressesController < Spree::StoreController
   load_and_authorize_resource class: 'Spree::Address'
   ssl_required :destroy
   
+  def show
+    redirect_to account_path
+  end
+
   def edit
     session["user_return_to"] = request.env['HTTP_REFERER']
   end
-  
+
+  def new
+    @address = Spree::Address.default
+  end
+
   def update
     if @address.editable?
       if @address.update_attributes(params[:address])
         flash[:notice] = I18n.t(:successfully_updated, :resource => I18n.t(:address))
+        redirect_back_or_default(account_path)
+      else
+        render :action => "edit"
       end
     else
       new_address = @address.clone
@@ -19,17 +30,28 @@ class Spree::AddressesController < Spree::StoreController
       @address.update_attribute(:deleted_at, Time.now)
       if new_address.save
         flash[:notice] = I18n.t(:successfully_updated, :resource => I18n.t(:address))
+        redirect_back_or_default(account_path)
+      else
+        render :action => "edit"
       end
     end
-    redirect_back_or_default(account_path)
+  end
+
+  def create
+    @address = Spree::Address.new(params[:address])
+    @address.user = current_user
+    if @address.save
+      flash[:notice] = I18n.t(:successfully_created, :resource => I18n.t(:address))
+      redirect_to account_path
+    else
+      render :action => "new"
+    end
   end
 
   def destroy
-    if @address.can_be_deleted?
-      @address.destroy
-    else
-      @address.update_attribute(:deleted_at, Time.now)
-    end
+    @address.destroy
+
+    flash[:notice] = I18n.t(:successfully_removed, :resource => t(:address))
     redirect_to(request.env['HTTP_REFERER'] || account_path) unless request.xhr?
   end
 end

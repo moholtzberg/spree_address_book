@@ -1,3 +1,5 @@
+//= require store/spree_core
+
 (function($) {
   $(document).ready(function(){
     if($('#checkout_form_address').is('*') || $('form').is('.edit_address')){
