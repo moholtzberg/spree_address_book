@@ -28,6 +28,10 @@ Spree::Address.class_eval do
     "#{firstname} #{lastname}: #{full_address}, #{city}, #{state || state_name}, #{country}, #{zipcode}"
   end
 
+  def full_address
+    [address1, address2].reject(&:blank?).to_a.join(', ')
+  end
+
   # UPGRADE_CHECK if future versions of spree have a custom destroy function, this will break
   def destroy
     if can_be_deleted?
