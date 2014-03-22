@@ -29,7 +29,7 @@ Spree::Address.class_eval do
     if can_be_deleted?
       destroy_without_saving_used
     else
-      update_attribute(:deleted_at, Time.now)
+      update_attribute(:user_id, nil)
     end
   end
   alias_method_chain :destroy, :saving_used
