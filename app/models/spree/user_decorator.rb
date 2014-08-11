@@ -1,3 +1,3 @@
 Spree::User.class_eval do
-  has_many :addresses, :conditions => {:deleted_at => nil}, :order => "updated_at DESC"
+  has_many :addresses, -> { where("deleted_at is null").order('updated_at DESC') }
 end
